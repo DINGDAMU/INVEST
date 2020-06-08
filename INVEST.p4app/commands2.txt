@@ -1,12 +1,6 @@
 table_add ipv4_lpm ipv4_forward 10.0.1.1/32 => 00:00:00:00:01:01 2
 table_add ipv4_lpm ipv4_forward 10.0.2.2/32 => 00:00:00:00:02:02 1
 table_add ipv4_lpm ipv4_forward 10.0.3.3/32 => 00:00:00:00:03:03 3
-table_set_default set_hll_table set_hll_count
-table_set_default update_hll do_update_hll
-table_set_default loglog_counting do_loglog_counting
-
-
-
 table_add count_zeros do_count_zeros 0x01&&&0x0001 => 1 1
 table_add count_zeros do_count_zeros 0x02&&&0x0003 => 2 2
 table_add count_zeros do_count_zeros 0x04&&&0x0007 => 3 3
