@@ -1,0 +1,67 @@
+# !/usr/bin/python
+# -*- coding:utf-8 -*-
+# ###########################
+# File Name: controller.py
+# Author: dingdamu
+# Mail: dingdamu@gmail.com
+# Created Time: 2019-02-07 16:43:08
+# ###########################
+
+import subprocess
+from datasketch import HyperLogLog
+import numpy as np
+
+# Only valid for Python2
+def readRegister(register, thrift_port):
+    p = subprocess.Popen(['docker', 'exec', '-i', 'hh', 'simple_switch_CLI', '--thrift-port', str(thrift_port)],
+stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+     stderr=subprocess.PIPE)
+    stdout, stderr = p.communicate(input="register_read %s" % (register))
+    reg = list(stdout.strip().split("= ")[1].split("\n")[0].split(", "))
+    reg = map(int, reg)
+    return reg
+
+
+hll_reg1 = readRegister("hll_register", 22222)
+s1 = readRegister("tot_reg", 22222)
+hll1 = HyperLogLog(p=11, reg=np.array(hll_reg1))
+print "Cardinality estimation in S1(HLL):"
+print hll1.count()
+n1 = hll1.count()
+print "S1"
+print s1[0] 
+
+hll_reg2 = readRegister("hll_register", 22223)
+s2 = readRegister("tot_reg", 22223)
+hll2 = HyperLogLog(p=11, reg=np.array(hll_reg2))
+print "Cardinality estimation in S2(HLL):"
+print hll2.count()
+n2 = hll2.count()
+print "S2"
+print s2[0] 
+
+hll_reg3 = readRegister("hll_register", 22224)
+hll3 = HyperLogLog(p=11, reg=np.array(hll_reg3))
+s3 = readRegister("tot_reg", 22224)
+print "Cardinality estimation in S3(HLL):"
+print hll3.count()
+n3 = hll3.count()
+print "S3"
+print s3[0] 
+
+mean = (s1[0]/n1 + s2[0]/n2 + s3[0]/n3)/3
+print "Distributed flow rate"
+print mean
+
+hll_tot = HyperLogLog(p=11)
+hll_tot.merge(hll1)
+hll_tot.merge(hll2)
+hll_tot.merge(hll3)
+print "Network-wide Cardinality number:"
+print hll_tot.count()
+
+
+stot = mean * hll_tot.count() 
+print "Whole network volume estimation"
+print stot
+print "======================="
