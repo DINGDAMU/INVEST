@@ -49,9 +49,6 @@ n3 = hll3.count()
 print "S3"
 print s3[0] 
 
-mean = (s1[0]/n1 + s2[0]/n2 + s3[0]/n3)/3
-print "Distributed flow rate"
-print mean
 
 hll_tot = HyperLogLog(p=11)
 hll_tot.merge(hll1)
@@ -60,8 +57,28 @@ hll_tot.merge(hll3)
 print "Network-wide Cardinality number:"
 print hll_tot.count()
 
+hll_reg = [hll1, hll2, hll3]
+hll_top = HyperLogLog(p=11)
+N = [n1, n2, n3]
+S = [s1[0], s2[0], s3[0]]
+I_top = []
+k = 0
+R_tot = 0
+while hll_top.count() < hll_tot.count():
+    n_max = max(N)
+    i = N.index(max(N))    
+    I_top.append(i)
+    hll_top.merge(hll_reg[i])
+    k = k + 1
+    N.remove(n_max)
 
-stot = mean * hll_tot.count() 
+for i in I_top:
+    R_tot = R_tot + (1/k)*S[i]/N[i] 
+
+print "Distributed flow packet size"
+print R_tot
+
+stot = R_tot * hll_tot.count() 
 print "Whole network volume estimation"
 print stot
 print "======================="
