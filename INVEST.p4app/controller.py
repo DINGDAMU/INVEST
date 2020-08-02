@@ -60,20 +60,21 @@ print hll_tot.count()
 hll_reg = [hll1, hll2, hll3]
 hll_top = HyperLogLog(p=11)
 N = [n1, n2, n3]
+N_t = N
 S = [s1[0], s2[0], s3[0]]
 I_top = []
 k = 0
 R_tot = 0
 while hll_top.count() < hll_tot.count():
-    n_max = max(N)
+    n_max = max(N_t)
     i = N.index(max(N))    
     I_top.append(i)
     hll_top.merge(hll_reg[i])
     k = k + 1
-    N.remove(n_max)
+    R_tot = R_tot + S[i]/N[i]
+    N_t.remove(n_max)
 
-for i in I_top:
-    R_tot = R_tot + (1/k)*S[i]/N[i] 
+R_tot = (1/k)*R_tot
 
 print "Distributed flow packet size"
 print R_tot
