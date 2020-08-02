@@ -67,7 +67,7 @@ k = 0
 R_tot = 0
 while hll_top.count() < hll_tot.count():
     n_max = max(N_t)
-    i = N.index(max(N))    
+    i = N.index(n_max)    
     I_top.append(i)
     hll_top.merge(hll_reg[i])
     k = k + 1
