@@ -76,10 +76,10 @@ while hll_top.count() < hll_tot.count():
 
 R_tot = (1/k)*R_tot
 
-print "Distributed flow packet size"
+print "Average flow packet size"
 print R_tot
 
 stot = R_tot * hll_tot.count() 
-print "Whole network volume estimation"
+print "Network traffic volume estimation"
 print stot
 print "======================="
