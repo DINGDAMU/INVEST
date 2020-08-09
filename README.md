@@ -42,6 +42,7 @@ or
    ```
 4. Check the result by running controller
    ```
+    pip2 install datasketch
     python2 controller.py 
    ```
 Note that the Behavior model only supports up to 16 bits of mask for each table, but Tofino-based switches support 32 bits of mask.
