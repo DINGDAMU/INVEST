@@ -1,11 +1,6 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 # ###########################
-# File Name: controller.py
-# Author: dingdamu
-# Mail: dingdamu@gmail.com
-# Created Time: 2019-02-07 16:43:08
-# ###########################
 
 import subprocess
 from datasketch import HyperLogLog
