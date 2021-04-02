@@ -1,3 +1,12 @@
+@inproceedings{ding2021ivest,
+  title={INVEST: Flow-Based Traffic Volume Estimation in Data-Plane Programmable Networks},
+  author={Ding, Damu and Savi, Marco and Pederzolli, Federico and Siracusa, Domenico},
+  booktitle={IFIP Networking Conference (IFIP Networking)},
+  year={2021}
+}   
+
+
+
 Installation
 ------------
 
